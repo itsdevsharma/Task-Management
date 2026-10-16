@@ -31,6 +31,7 @@ A full-stack MERN task management app with authentication, authorization, dashbo
 │   ├── src/
 │   ├── tests/
 │   ├── .env.example
+│   ├── postman_collection.json
 │   └── package.json
 ├── frontend/
 │   ├── src/
@@ -38,10 +39,8 @@ A full-stack MERN task management app with authentication, authorization, dashbo
 │   ├── index.html
 │   └── package.json
 ├── .gitignore
-├── package.json
 ├── README.md
-├── API_DOCUMENTATION.md
-└── postman_collection.json
+└── API_DOCUMENTATION.md
 ```
 
 ## Prerequisites
@@ -55,13 +54,12 @@ A full-stack MERN task management app with authentication, authorization, dashbo
 From the repository root:
 
 ```bash
-npm ci
 npm --prefix backend ci
 npm --prefix frontend ci
 ```
 
-Lockfiles are included for reproducible installs. `npm install` followed by
-`npm run install:all` is also available when intentionally updating dependencies.
+Each application has its own package manifest, lockfile, and local dependencies.
+There is no root npm package or root `node_modules` directory.
 
 ## Environment Configuration
 
@@ -98,17 +96,11 @@ VITE_API_URL=http://localhost:5000/api
 Run the backend and frontend in separate terminals from the repository root:
 
 ```bash
-npm run dev:backend
+npm --prefix backend run dev
 ```
 
 ```bash
-npm run dev:frontend
-```
-
-Or start both processes together:
-
-```bash
-npm run dev
+npm --prefix frontend run dev
 ```
 
 The backend development command uses Node's native `--watch` mode.
@@ -116,11 +108,10 @@ The backend development command uses Node's native `--watch` mode.
 ## Available Scripts
 
 ```bash
-npm run dev
-npm run dev:backend
-npm run dev:frontend
-npm run test:backend
-npm run test:frontend
+npm --prefix backend run dev
+npm --prefix frontend run dev
+npm --prefix backend test
+npm --prefix frontend test
 ```
 
 ## API Overview
@@ -153,10 +144,11 @@ Tasks:
 Run all API and frontend tests from the root:
 
 ```bash
-npm test
+npm --prefix backend test
+npm --prefix frontend test
 ```
 
-Run either suite separately with `npm run test:backend` or `npm run test:frontend`.
+Run either suite separately with `npm --prefix backend test` or `npm --prefix frontend test`.
 Backend tests use Vitest, Supertest, and a temporary MongoDB instance. They cover
 registration/login, invalid and expired JWTs, every task route without authentication,
 CRUD, validation, filtering, pagination, statistics, and cross-user read/update/delete
@@ -180,8 +172,9 @@ For each subsequent change, use a descriptive branch and focused commits:
 
 ```bash
 git switch -c feature/task-improvements
-npm test
-npm run build
+npm --prefix backend test
+npm --prefix frontend test
+npm --prefix frontend run build
 git status --short
 git add <changed-source-files>
 git diff --cached
@@ -206,8 +199,8 @@ to submit; no remote or hosted repository is configured automatically.
 From the repository root:
 
 ```bash
-npm run test:backend
-npm run test:frontend
+npm --prefix backend test
+npm --prefix frontend test
 npm --prefix frontend run build
 cd backend
 NODE_ENV=production npm start
@@ -242,7 +235,6 @@ See `IPTECHIE_AUDIT_REPORT.md` for the latest rubric audit and remaining limitat
 
 ```bash
 node scripts/security-audit.mjs
-npm audit
 npm --prefix backend audit
 npm --prefix frontend audit
 node scripts/production-smoke.mjs
