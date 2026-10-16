@@ -54,12 +54,15 @@ A full-stack MERN task management app with authentication, authorization, dashbo
 From the repository root:
 
 ```bash
-npm --prefix backend ci
-npm --prefix frontend ci
+(cd backend && npm ci)
+(cd frontend && npm ci)
 ```
 
 Each application has its own package manifest, lockfile, and local dependencies.
 There is no root npm package or root `node_modules` directory.
+Commands written as `(cd backend && npm ...)` or `(cd frontend && npm ...)`
+run from the repository root and keep your terminal in that directory. If your
+terminal is already inside an application folder, run the `npm` command directly.
 
 ## Environment Configuration
 
@@ -93,14 +96,18 @@ VITE_API_URL=http://localhost:5000/api
 
 ## Run the App
 
-Run the backend and frontend in separate terminals from the repository root:
+Open two terminals at the repository root. Start the backend in the first:
 
 ```bash
-npm --prefix backend run dev
+cd backend
+npm run dev
 ```
 
+Start the frontend in the second:
+
 ```bash
-npm --prefix frontend run dev
+cd frontend
+npm run dev
 ```
 
 The backend development command uses Node's native `--watch` mode.
@@ -108,10 +115,10 @@ The backend development command uses Node's native `--watch` mode.
 ## Available Scripts
 
 ```bash
-npm --prefix backend run dev
-npm --prefix frontend run dev
-npm --prefix backend test
-npm --prefix frontend test
+(cd backend && npm run dev)
+(cd frontend && npm run dev)
+(cd backend && npm test)
+(cd frontend && npm test)
 ```
 
 ## API Overview
@@ -144,11 +151,11 @@ Tasks:
 Run all API and frontend tests from the root:
 
 ```bash
-npm --prefix backend test
-npm --prefix frontend test
+(cd backend && npm test)
+(cd frontend && npm test)
 ```
 
-Run either suite separately with `npm --prefix backend test` or `npm --prefix frontend test`.
+Run either suite separately with `(cd backend && npm test)` or `(cd frontend && npm test)`.
 Backend tests use Vitest, Supertest, and a temporary MongoDB instance. They cover
 registration/login, invalid and expired JWTs, every task route without authentication,
 CRUD, validation, filtering, pagination, statistics, and cross-user read/update/delete
@@ -172,9 +179,9 @@ For each subsequent change, use a descriptive branch and focused commits:
 
 ```bash
 git switch -c feature/task-improvements
-npm --prefix backend test
-npm --prefix frontend test
-npm --prefix frontend run build
+(cd backend && npm test)
+(cd frontend && npm test)
+(cd frontend && npm run build)
 git status --short
 git add <changed-source-files>
 git diff --cached
@@ -199,9 +206,9 @@ to submit; no remote or hosted repository is configured automatically.
 From the repository root:
 
 ```bash
-npm --prefix backend test
-npm --prefix frontend test
-npm --prefix frontend run build
+(cd backend && npm test)
+(cd frontend && npm test)
+(cd frontend && npm run build)
 cd backend
 NODE_ENV=production npm start
 ```
@@ -213,7 +220,7 @@ Tests use an isolated temporary MongoDB and a generated test secret, without a
 local `.env`. The first test run may download a MongoDB binary.
 
 Serve `frontend/dist` with SPA fallback to `index.html`. Set `VITE_API_URL` before
-building; Vite embeds it in the bundle. `npm --prefix frontend run preview` is
+building; Vite embeds it in the bundle. `(cd frontend && npm run preview)` is
 available for local preview. Set `CLIENT_URL` to the frontend origin.
 
 Logout removes client storage and local authentication state. JWTs remain valid
@@ -235,8 +242,8 @@ See `IPTECHIE_AUDIT_REPORT.md` for the latest rubric audit and remaining limitat
 
 ```bash
 node scripts/security-audit.mjs
-npm --prefix backend audit
-npm --prefix frontend audit
+(cd backend && npm audit)
+(cd frontend && npm audit)
 node scripts/production-smoke.mjs
 ```
 
